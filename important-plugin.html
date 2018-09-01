@@ -24,3 +24,20 @@ https://wordpress.org/plugins/responsive-menu/
 
 Remove unnecessory stuff from wordpress
 https://wordpress.org/plugins/wp-disable/
+
+/* Makign wordpress work on lan */
+To make localhost work on lan:
+optn .htaccess file in www folder and comment out
+#Order Deny,Allow
+#Deny from all
+#Allow from 127.0.0.1
+
+This will enable the localhost on the Lan, now we can access localhost on mobile throuhg ip (lan ip of pc)
+
+To make Wordpress work on Lan:
+add 
+define('WP_SITEURL','http://192.168.0.3/mvp');
+define('WP_HOME','http://192.168.0.3/mvp');
+at very top of the wp-config.php
+
+Apart from this install "Relative URL" a wordpress plugin only for the development
