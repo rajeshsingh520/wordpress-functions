@@ -33,6 +33,10 @@ class pisol_class_form{
             case 'text':
                 $this->text_box();
             break;
+                
+            case 'textarea':
+                $this->textarea_box();
+            break;
 
             case 'multiselect':
             $this->multiselect_box();
@@ -103,6 +107,22 @@ class pisol_class_form{
         echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
         echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
         echo '>';
+
+    }
+    
+    /*
+    Textarea field
+    */
+    function textarea_box(){
+        echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
+        echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        echo '</div>';
+        echo '<textarea type="text" class="pisol_select" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"';
+        echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
+        echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
+        echo '>';
+        echo $this->saved_value; 
+        echo '</textarea>';
 
     }
 }
