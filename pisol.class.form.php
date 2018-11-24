@@ -72,7 +72,11 @@ class pisol_class_form{
         echo '<select class="pisol_select" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple';
         echo '>';
             foreach($this->setting['value'] as $key => $val){
-                echo '<option value="'.$key.'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+                if(isset($this->saved_value) && $this->saved_value != false){
+                    echo '<option value="'.$key.'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+                }else{
+                    echo '<option value="'.$key.'">'.$val.'</option>';
+                }
             }
         echo '</select>';
 
