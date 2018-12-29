@@ -1,6 +1,10 @@
 <?php
+/**
+* version 1.0
+*/
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
+if(!class_exists('pisol_class_form')):
 class pisol_class_form{
 
     private $setting;
@@ -130,3 +134,4 @@ class pisol_class_form{
 
     }
 }
+endif;
