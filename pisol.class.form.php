@@ -1,6 +1,6 @@
 <?php
 /**
-* version 1.0
+* version 1.1
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
@@ -9,6 +9,7 @@ class pisol_class_form{
 
     private $setting;
     private $saved_value; 
+    private $pro;
     function __construct($setting){
         $this->setting = $setting;
 
@@ -17,6 +18,18 @@ class pisol_class_form{
         }else{
             $this->saved_value = get_option($this->setting['field']);
         }
+
+        if(isset( $this->setting['pro'] )){
+            if($this->setting['pro']){
+                $this->pro = ' free-version ';
+                $this->setting['desc'] = '<span style="color:#f00; font-weight:bold;">Workes in Pro version only / Without PRO version this setting will have no effect</span>';
+            }else{
+                $this->pro = ' paid-version ';
+            }
+        }else{
+            $this->pro = "";
+        }
+        
         
         $this->check_field_type();
     }
@@ -43,7 +56,7 @@ class pisol_class_form{
             break;
 
             case 'multiselect':
-            $this->multiselect_box();
+                $this->multiselect_box();
             break;
         }
     }
@@ -56,7 +69,7 @@ class pisol_class_form{
         echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         echo '</div>';
-        echo '<select class="pisol_select" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"';
+        echo '<select class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"';
         echo (isset($this->setting['multiple']) ? ' multiple="'.$this->setting['multiple'].'"': '');
         echo '>';
             foreach($this->setting['value'] as $key => $val){
@@ -73,7 +86,7 @@ class pisol_class_form{
         echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         echo '</div>';
-        echo '<select class="pisol_select" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple';
+        echo '<select class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple';
         echo '>';
             foreach($this->setting['value'] as $key => $val){
                 if(isset($this->saved_value) && $this->saved_value != false){
@@ -94,7 +107,7 @@ class pisol_class_form{
         echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         echo '</div>';
-        echo '<input type="number" class="pisol_select" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
+        echo '<input type="number" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
         echo (isset($this->setting['min']) ? ' min="'.$this->setting['min'].'"': '');
         echo (isset($this->setting['max']) ? ' max="'.$this->setting['max'].'"': '');
         echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
@@ -111,7 +124,7 @@ class pisol_class_form{
         echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         echo '</div>';
-        echo '<input type="text" class="pisol_select" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
+        echo '<input type="text" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
         echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
         echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
         echo '>';
@@ -125,7 +138,7 @@ class pisol_class_form{
         echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         echo '</div>';
-        echo '<textarea type="text" class="pisol_select" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"';
+        echo '<textarea type="text" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"';
         echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
         echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
         echo '>';
