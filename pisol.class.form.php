@@ -1,6 +1,6 @@
 <?php
 /**
-* version 1.1
+* version 1.2
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
@@ -38,27 +38,29 @@ class pisol_class_form{
 
     
     function check_field_type(){
-        switch ($this->setting['type']){
-            case 'select':
-                $this->select_box();
-            break;
+        if(isset($this->setting['type'])):
+            switch ($this->setting['type']){
+                case 'select':
+                    $this->select_box();
+                break;
 
-            case 'number':
-                $this->number_box();
-            break;
+                case 'number':
+                    $this->number_box();
+                break;
 
-            case 'text':
-                $this->text_box();
-            break;
-                
-            case 'textarea':
-                $this->textarea_box();
-            break;
+                case 'text':
+                    $this->text_box();
+                break;
+                    
+                case 'textarea':
+                    $this->textarea_box();
+                break;
 
-            case 'multiselect':
-                $this->multiselect_box();
-            break;
-        }
+                case 'multiselect':
+                    $this->multiselect_box();
+                break;
+            }
+        endif;
     }
 
     /*
