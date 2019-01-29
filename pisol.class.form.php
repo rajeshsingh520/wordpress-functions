@@ -1,6 +1,6 @@
 <?php
 /**
-* version 1.2
+* version 1.3
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
@@ -11,6 +11,7 @@ class pisol_class_form{
     private $saved_value; 
     private $pro;
     function __construct($setting){
+
         $this->setting = $setting;
 
         if(isset( $this->setting['default'] )){
@@ -58,6 +59,14 @@ class pisol_class_form{
 
                 case 'multiselect':
                     $this->multiselect_box();
+                break;
+
+                case 'color':
+                    $this->color_box();
+                break;
+
+                case 'hidden':
+                    $this->hidden_box();
                 break;
             }
         endif;
@@ -146,6 +155,38 @@ class pisol_class_form{
         echo '>';
         echo $this->saved_value; 
         echo '</textarea>';
+
+    }
+
+     /*
+        Field type: color
+    */
+    function color_box(){
+        wp_enqueue_style( 'wp-color-picker');
+        wp_enqueue_script( 'wp-color-picker');
+        wp_add_inline_script('wp-color-picker','
+        jQuery(document).ready(function($) {
+            $(".color-picker").wpColorPicker();
+          });
+        ');
+        echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
+        echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        echo '</div>';
+        echo '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
+        echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
+        echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
+        echo '>';
+
+    }
+
+    function hidden_box(){
+        echo '<div><label for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
+        echo (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        echo '</div>';
+        echo '<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"';
+        echo (isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '');
+        echo (isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '');
+        echo '>';
 
     }
 }
