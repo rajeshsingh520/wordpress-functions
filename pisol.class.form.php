@@ -71,7 +71,7 @@ class pisol_class_form{
                 break;
 
                 case 'switch':
-                    $this->switch();
+                    $this->switch_display();
                 break;
             }
         endif;
@@ -209,7 +209,7 @@ class pisol_class_form{
     /*
         Field type: switch
     */
-    function switch(){
+    function switch_display(){
 
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
