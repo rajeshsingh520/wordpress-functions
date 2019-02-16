@@ -1,6 +1,6 @@
 <?php
 /**
-* version 2.2
+* version 2.3
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -215,7 +215,7 @@ class pisol_class_form{
         $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == 1 || $this->saved_value) ? "checked=\'checked\'": "").' >
+        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == 1 || $this->saved_value) ? "checked=\'checked\'": "").' >
         <label class="custom-control-label" ></label>
         </div>';
 
