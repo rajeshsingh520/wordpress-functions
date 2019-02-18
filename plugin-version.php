@@ -19,3 +19,23 @@ if(!is_plugin_active( 'woocommerce/woocommerce.php')){
 /* buy link and buy price */
 define('PISOL_RESTAURANT_MENU_BUY_URL', 'https://www.piwebsolution.com/cart/?add-to-cart=574&variation_id=675');
 define('PI_EDD_PRICE', '<u>$15 Only</u>');
+
+
+/** For PRO VERSION */
+
+/**
+ * Deactivate the proversion if free version is not available
+ */
+if(!pi_edd_free_check()) {
+    function pi_edd_pro_notice(){
+        global $pagenow;
+        if ( true ) {
+             echo '<div class="notice notice-warning is-dismissible">
+                 <p>FREE version is needed for the working of Pro CSS JS Manager. so install it from this link <a href="https://wordpress.org/plugins/estimate-delivery-date-for-woocommerce/" target="_blank">Download</a></p>
+             </div>';
+        }
+    }
+    add_action('admin_notices', 'pi_edd_pro_notice');
+    deactivate_plugins(plugin_basename(__FILE__));
+    return;
+}
