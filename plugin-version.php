@@ -39,3 +39,24 @@ if(!pi_edd_free_check()) {
     deactivate_plugins(plugin_basename(__FILE__));
     return;
 }
+
+
+/**
+ * Checking Pro version, this goes in free version
+ */
+function pi_dcw_pro_check(){
+	if(is_plugin_active( 'pi-dcw-pro/pi-dcw-pro.php')){
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Checking Free version, this goes in pro version
+ */
+function pi_dcw_free_check(){
+	if(is_plugin_active( 'pi-dcw/pi-dcw.php')){
+		return true;
+	}
+	return false;
+}
