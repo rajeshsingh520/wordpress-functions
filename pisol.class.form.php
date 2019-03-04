@@ -1,6 +1,6 @@
 <?php
 /**
-* version 2.3
+* version 2.4
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -24,7 +24,7 @@ class pisol_class_form{
         if(isset( $this->setting['pro'] )){
             if($this->setting['pro']){
                 $this->pro = ' free-version ';
-                $this->setting['desc'] = '<span style="color:#f00; font-weight:bold;">Workes in Pro version only / Without PRO version this setting will have no effect</span>';
+                //$this->setting['desc'] = '<span style="color:#f00; font-weight:bold;">Workes in Pro version only / Without PRO version this setting will have no effect</span>';
             }else{
                 $this->pro = ' paid-version ';
             }
@@ -73,13 +73,17 @@ class pisol_class_form{
                 case 'switch':
                     $this->switch_display();
                 break;
+
+                case 'setting_category':
+                    $this->setting_category();
+                break;
             }
         endif;
     }
 
     function bootstrap($label, $field, $desc = ""){
         ?>
-        <div class="row py-4 border-bottom align-items-center">
+        <div class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
             <div class="col-12 col-md-5">
             <?php echo $label; ?>
             <?php echo $desc != "" ? $desc: ""; ?>
@@ -215,11 +219,26 @@ class pisol_class_form{
         $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == 1 || $this->saved_value) ? "checked=\'checked\'": "").' >
+        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked=\'checked\'": "").' >
         <label class="custom-control-label" ></label>
         </div>';
 
         $this->bootstrap($label, $field, $desc);
+    }
+
+    /**
+     * Category: is to devide setting in different part 
+     */
+    function setting_category(){
+        if(isset($this->setting['label']) && $this->setting['label'] != ""):
+        ?>
+        <div class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
+            <div class="col-12">
+            <h2 class="mt-0 mb-0 <?php echo ( isset($this->setting['class_title']) ? $this->setting['class_title'] : "" ); ?>"><?php echo $this->setting['label']; ?></h2>
+            </div>
+        </div>
+        <?php
+        endif;
     }
 }
 endif;
