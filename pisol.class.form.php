@@ -1,6 +1,6 @@
 <?php
 /**
-* version 2.4
+* version 2.5
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -83,7 +83,7 @@ class pisol_class_form{
 
     function bootstrap($label, $field, $desc = ""){
         ?>
-        <div class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
+        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
             <div class="col-12 col-md-5">
             <?php echo $label; ?>
             <?php echo $desc != "" ? $desc: ""; ?>
@@ -219,7 +219,7 @@ class pisol_class_form{
         $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked=\'checked\'": "").' >
+        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
         <label class="custom-control-label" ></label>
         </div>';
 
