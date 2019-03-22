@@ -1,6 +1,6 @@
 <?php
 /**
-* version 2.5
+* version 2.6
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -82,8 +82,9 @@ class pisol_class_form{
     }
 
     function bootstrap($label, $field, $desc = ""){
+        if($this->setting['type'] != 'hidden'){
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
+        <div class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
             <div class="col-12 col-md-5">
             <?php echo $label; ?>
             <?php echo $desc != "" ? $desc: ""; ?>
@@ -93,6 +94,15 @@ class pisol_class_form{
             </div>
         </div>
         <?php
+        }else{
+            ?>
+            <div class="row align-items-center <?php echo $this->pro; ?>">
+            <div class="col-12 col-md-12">
+            <?php echo $field; ?>
+            </div>
+            </div>
+            <?php
+        }
     }
 
     /*
