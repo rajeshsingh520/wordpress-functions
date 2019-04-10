@@ -1,12 +1,12 @@
 <?php
 /**
-* version 2.6
+* version 2.7
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form')):
-class pisol_class_form{
+if(!class_exists('pisol_class_form_sn')):
+class pisol_class_form_sn{
 
     private $setting;
     private $saved_value; 
@@ -76,6 +76,10 @@ class pisol_class_form{
 
                 case 'setting_category':
                     $this->setting_category();
+                break;
+
+                case 'image':
+                    $this->image();
                 break;
             }
         endif;
@@ -155,6 +159,7 @@ class pisol_class_form{
         $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
         .(isset($this->setting['min']) ? ' min="'.$this->setting['min'].'"': '')
         .(isset($this->setting['max']) ? ' max="'.$this->setting['max'].'"': '')
+        .(isset($this->setting['step']) ? ' step="'.$this->setting['step'].'"': '')
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -181,7 +186,7 @@ class pisol_class_form{
     function textarea_box(){
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<textarea type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'
+        $field = '<textarea style="height:auto !important; min-height:200px;" type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -249,6 +254,78 @@ class pisol_class_form{
         </div>
         <?php
         endif;
+    }
+
+    function image(){
+        wp_enqueue_media();
+        add_action( 'admin_footer', array($this,'media_selector_scripts') );
+        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        $field = '
+        <div class="row align-items-center">
+        <div class="col-6">
+        <input id="'.$this->setting['field'].'_button" type="button" class="button" value="'.__('Upload image').'" />
+        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'">
+        </div>
+        <div class="col-6">
+        <div class="image-preview-wrapper">
+		<img id="'.$this->setting['field'].'_preview"'.($this->saved_value > 0 ? 'src="'.wp_get_attachment_url( get_option( $this->setting['field'] ) ).'"': '').' width="100" height="100" style="max-height: 100px; width: 100px;">
+        </div>
+        </div>
+        </div>
+        ';
+        $this->bootstrap($label, $field, $desc);
+    }
+
+    function media_selector_scripts(){
+        $my_saved_attachment_post_id = get_option($this->setting['field'], 0 );
+	    ?><script type='text/javascript'>
+		jQuery( document ).ready( function( $ ) {
+			// Uploading files
+			var file_frame;
+			var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
+			var set_to_post_id = <?php echo $my_saved_attachment_post_id; ?>; // Set this
+			jQuery('#<?php echo $this->setting['field']; ?>_button').on('click', function( event ){
+				event.preventDefault();
+				// If the media frame already exists, reopen it.
+				if ( file_frame ) {
+					// Set the post ID to what we want
+					file_frame.uploader.uploader.param( 'post_id', set_to_post_id );
+					// Open frame
+					file_frame.open();
+					return;
+				} else {
+					// Set the wp.media post id so the uploader grabs the ID we want when initialised
+					wp.media.model.settings.post.id = set_to_post_id;
+				}
+				// Create the media frame.
+				file_frame = wp.media.frames.file_frame = wp.media({
+					title: 'Select a image to upload',
+					button: {
+						text: 'Use this image',
+					},
+					multiple: false	// Set to true to allow multiple files to be selected
+				});
+				// When an image is selected, run a callback.
+				file_frame.on( 'select', function() {
+					// We set multiple to false so only get one image from the uploader
+					attachment = file_frame.state().get('selection').first().toJSON();
+					// Do something with attachment.id and/or attachment.url here
+					$( '#<?php echo $this->setting['field']; ?>_preview' ).attr( 'src', attachment.url ).css( 'width', 'auto' );
+					$( '#<?php echo $this->setting['field']; ?>' ).val( attachment.id );
+					// Restore the main post ID
+					wp.media.model.settings.post.id = wp_media_post_id;
+				});
+					// Finally, open the modal
+					file_frame.open();
+			});
+			// Restore the main ID when the add media button is pressed
+			jQuery( 'a.add_media' ).on( 'click', function() {
+				wp.media.model.settings.post.id = wp_media_post_id;
+			});
+		});
+	</script>
+    <?php
     }
 }
 endif;
