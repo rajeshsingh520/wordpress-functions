@@ -1,12 +1,12 @@
 <?php
 /**
-* version 2.7
+* version 2.9
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_sn')):
-class pisol_class_form_sn{
+if(!class_exists('pisol_class_form_edd')):
+class pisol_class_form_edd{
 
     private $setting;
     private $saved_value; 
@@ -235,7 +235,7 @@ class pisol_class_form_sn{
         
         $field = '<div class="custom-control custom-switch">
         <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
-        <label class="custom-control-label" ></label>
+        <label class="custom-control-label" for="'.$this->setting['field'].'"></label>
         </div>';
 
         $this->bootstrap($label, $field, $desc);
