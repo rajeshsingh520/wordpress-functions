@@ -1,6 +1,6 @@
 <?php
 /**
-* version 2.9
+* version 3.0
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -247,7 +247,7 @@ class pisol_class_form{
     function setting_category(){
         if(isset($this->setting['label']) && $this->setting['label'] != ""):
         ?>
-        <div class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
+        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
             <div class="col-12">
             <h2 class="mt-0 mb-0 <?php echo ( isset($this->setting['class_title']) ? $this->setting['class_title'] : "" ); ?>"><?php echo $this->setting['label']; ?></h2>
             </div>
