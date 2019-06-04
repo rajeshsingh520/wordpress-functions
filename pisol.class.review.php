@@ -75,7 +75,7 @@ class pisol_class_review{
         }
 
         if ( wp_verify_nonce( $_GET[$this->nonce], $this->slug . '_hide_notices' ) ) {
-            set_transient( $this->slug.'_show_notification', 'no',86400);
+            set_transient( $this->slug.'_show_notification', 'no',604800);
         }
     }
 
