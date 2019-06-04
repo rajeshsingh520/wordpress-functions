@@ -24,7 +24,7 @@ class pisol_class_review{
         //delete_transient($this->slug.'_show_notification');
         //delete_option($this->slug.'_first_run');
 
-        $this->show_notification = false;//get_transient($this->slug.'_show_notification');
+        $this->show_notification = get_transient($this->slug.'_show_notification');
 
         $this->first_run = get_option($this->slug.'_first_run',"");
 
