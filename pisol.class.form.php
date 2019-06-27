@@ -1,6 +1,6 @@
 <?php
 /**
-* version 3.0
+* version 3.1
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -269,7 +269,8 @@ class pisol_class_form{
         </div>
         <div class="col-6">
         <div class="image-preview-wrapper">
-		<img id="'.$this->setting['field'].'_preview"'.($this->saved_value > 0 ? 'src="'.wp_get_attachment_url( get_option( $this->setting['field'] ) ).'"': '').' width="100" height="100" style="max-height: 100px; width: 100px;">
+        <img id="'.$this->setting['field'].'_preview"'.($this->saved_value > 0 ? 'src="'.wp_get_attachment_url( get_option( $this->setting['field'] ) ).'"': '').' width="100" height="100" style="max-height: 100px; width: 100px;">
+        <a href="javascript:void(0)" class="clear-image-'.$this->setting['field'].'">Clear</a>
         </div>
         </div>
         </div>
@@ -284,7 +285,7 @@ class pisol_class_form{
 			// Uploading files
 			var file_frame;
 			var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
-			var set_to_post_id = <?php echo $my_saved_attachment_post_id; ?>; // Set this
+			var set_to_post_id = <?php echo $my_saved_attachment_post_id == 0 || $my_saved_attachment_post_id =="" ? "''" : $my_saved_attachment_post_id ; ?>; // Set this
 			jQuery('#<?php echo $this->setting['field']; ?>_button').on('click', function( event ){
 				event.preventDefault();
 				// If the media frame already exists, reopen it.
@@ -323,6 +324,10 @@ class pisol_class_form{
 			jQuery( 'a.add_media' ).on( 'click', function() {
 				wp.media.model.settings.post.id = wp_media_post_id;
 			});
+            jQuery( 'a.clear-image-<?php echo $this->setting['field']; ?>' ).on( 'click', function() {
+                $( '#<?php echo $this->setting['field']; ?>_preview' ).attr("src","");
+                $( '#<?php echo $this->setting['field']; ?>' ).val("");
+            });
 		});
 	</script>
     <?php
