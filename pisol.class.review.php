@@ -1,6 +1,6 @@
 <?php
 /**
-* version 1.0
+* version 1.1
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -29,7 +29,8 @@ class pisol_class_review{
         $this->first_run = get_option($this->slug.'_first_run',"");
 
         if($this->first_run == ""){
-            set_transient( $this->slug.'_show_notification', 'no',172800);
+            /* this make sure we run review msg after 1 day (86400 sec) after installation date */
+            set_transient( $this->slug.'_show_notification', 'no',86400);
             update_option($this->slug.'_first_run',"complete");
             return false;
         }
@@ -59,7 +60,9 @@ class pisol_class_review{
             <p>
             <a href="<?php echo $this->review_url; ?>" target="_blank" class="button">Review Now!!</a>&nbsp;
             <!--<a href="<?php echo $this->buy_now; ?>"  target="_blank" class="button">Buy PRO Version <?php echo $this->price; ?></a>&nbsp;-->
-            <a href="<?php echo $this->reviewAfterwords(); ?>" class="button">Will Review Later</a>
+            <a href="<?php echo $this->reviewAfterwords(); ?>" class="button">Will Review Later</a>&nbsp;
+            <a href="<?php echo $this->reviewAfterwords(); ?>" class="button">Have Already Reviewed</a>
+            <a href="<?php echo $this->reviewAfterwords(); ?>" class="button">Don't show again</a>
             </p>
         </div>
         <?php
@@ -75,7 +78,8 @@ class pisol_class_review{
         }
 
         if ( wp_verify_nonce( $_GET[$this->nonce], $this->slug . '_hide_notices' ) ) {
-            set_transient( $this->slug.'_show_notification', 'no',604800);
+            /* This hide the msg for 70 days */
+            set_transient( $this->slug.'_show_notification', 'no',6048000);
         }
     }
 
@@ -84,7 +88,9 @@ class pisol_class_review{
     }
 }
 
-new pisol_class_review('Enquiry Quotation for WooCommerce', 'enquiry-quotation-for-woocommerce',PI_EQW_BUY_URL, PI_EQW_PRICE);
+/*
+new pisol_class_review('Buy one Get one Free', 'buy-one-get-one-free',PI_BOGO_BUY_URL, PI_BOGO_PRICE);
+*/
 endif;
 
 
