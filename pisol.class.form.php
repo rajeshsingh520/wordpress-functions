@@ -1,12 +1,12 @@
 <?php
 /**
-* version 3.1
+* version 3.2
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form')):
-class pisol_class_form{
+if(!class_exists('pisol_class_form_dcw')):
+class pisol_class_form_dcw{
 
     private $setting;
     private $saved_value; 
@@ -88,7 +88,7 @@ class pisol_class_form{
     function bootstrap($label, $field, $desc = ""){
         if($this->setting['type'] != 'hidden'){
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>"  class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?>">
+        <div id="row_<?php echo $this->setting['field']; ?>"  class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?> ">
             <div class="col-12 col-md-5">
             <?php echo $label; ?>
             <?php echo $desc != "" ? $desc: ""; ?>
