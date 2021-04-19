@@ -1,12 +1,12 @@
 <?php
 /**
-* version 3.2
+* version 3.3
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_dcw')):
-class pisol_class_form_dcw{
+if(!class_exists('pisol_class_form_dtt')):
+class pisol_class_form_dtt{
 
     private $setting;
     private $saved_value; 
@@ -85,13 +85,14 @@ class pisol_class_form_dcw{
         endif;
     }
 
-    function bootstrap($label, $field, $desc = ""){
+    function bootstrap($label, $field, $desc = "", $links = ""){
         if($this->setting['type'] != 'hidden'){
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>"  class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?> ">
+        <div id="row_<?php echo $this->setting['field']; ?>"  class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?>">
             <div class="col-12 col-md-5">
             <?php echo $label; ?>
-            <?php echo $desc != "" ? $desc: ""; ?>
+            <?php echo $desc != "" ? $desc.'<br>': ""; ?>
+            <?php echo $links != "" ? $links: ""; ?>
             </div>
             <div class="col-12 col-md-7">
             <?php echo $field; ?>
@@ -125,8 +126,27 @@ class pisol_class_form_dcw{
             }
         $field .= '</select>';
 
-        $this->bootstrap($label, $field, $desc);
+        $links = $this->generateLinks($this->setting);
 
+        $this->bootstrap($label, $field, $desc, $links);
+
+    }
+
+    function generateLinks($setting){
+        /*
+        'links'=>array(array('name'=>"Video", 'url'=>"https://www.youtube.com/watch?v=KNC5lkoE2Fs", 'type'=>'iframe'))
+        'links'=>array(array('name'=>"Video", 'url'=>"image url", 'type'=>'image'))
+        */
+
+        if(!isset($setting['links']) || !is_array($setting['links']) || empty($setting['links'])) return;
+
+        $html = '';
+        $links = $setting['links'];
+        foreach($links as $link){
+            $class = 'pi-'.$link['type'];
+            $html .= '<a href="'.$link['url'].'" class="'.$class.' pi-info-links" target="_blank">'.$link['name'].'</a> ';
+        }
+        return $html;
     }
 
     /*
@@ -145,7 +165,9 @@ class pisol_class_form_dcw{
             }
             $field .= '</select>';
 
-            $this->bootstrap($label, $field, $desc);
+            $links = $this->generateLinks($this->setting);
+
+            $this->bootstrap($label, $field, $desc, $links);
 
     }
 
@@ -163,7 +185,10 @@ class pisol_class_form_dcw{
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
-        $this->bootstrap($label, $field, $desc);
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
     /*
@@ -177,7 +202,10 @@ class pisol_class_form_dcw{
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
-        $this->bootstrap($label, $field, $desc);
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
     
     /*
@@ -192,7 +220,10 @@ class pisol_class_form_dcw{
         .'>';
         $field .= $this->saved_value; 
         $field .= '</textarea>';
-        $this->bootstrap($label, $field, $desc);
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
      /*
@@ -212,7 +243,10 @@ class pisol_class_form_dcw{
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
-        $this->bootstrap($label, $field, $desc);
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
     function hidden_box(){
@@ -222,7 +256,10 @@ class pisol_class_form_dcw{
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
-        $this->bootstrap($label, $field, $desc);
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
     /*
@@ -238,7 +275,9 @@ class pisol_class_form_dcw{
         <label class="custom-control-label" for="'.$this->setting['field'].'"></label>
         </div>';
 
-        $this->bootstrap($label, $field, $desc);
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
     /**
@@ -275,7 +314,9 @@ class pisol_class_form_dcw{
         </div>
         </div>
         ';
-        $this->bootstrap($label, $field, $desc);
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap($label, $field, $desc, $links);
     }
 
     function media_selector_scripts(){
