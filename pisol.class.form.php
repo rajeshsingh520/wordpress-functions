@@ -1,12 +1,12 @@
 <?php
 /**
-* version 3.3
+* version 3.4
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_dtt')):
-class pisol_class_form_dtt{
+if(!class_exists('pisol_class_form_ppscw')):
+class pisol_class_form_ppscw{
 
     private $setting;
     private $saved_value; 
@@ -74,6 +74,10 @@ class pisol_class_form_dtt{
                     $this->switch_display();
                 break;
 
+                case 'switch_category':
+                    $this->switch_category_display();
+                break;
+
                 case 'setting_category':
                     $this->setting_category();
                 break;
@@ -110,6 +114,22 @@ class pisol_class_form_dtt{
         }
     }
 
+
+    function bootstrap_switch_category($label, $field, $desc = "", $links = ""){
+        ?>
+        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
+            <div class="col-9">
+            <?php echo $label; ?>
+            <?php echo $desc != "" ? $desc.'<br>': ""; ?>
+            <?php echo $links != "" ? $links: ""; ?>
+            </div>
+            <div class="col-3">
+            <?php echo $field; ?>
+            </div>
+        </div>
+        <?php
+    }
+
     /*
         Field type: select box
     */
@@ -122,7 +142,7 @@ class pisol_class_form_dtt{
          .(isset($this->setting['multiple']) ? ' multiple="'.$this->setting['multiple'].'"': '')
         .'>';
             foreach($this->setting['value'] as $key => $val){
-               $field .= '<option value="'.$key.'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+               $field .= '<option value="'.esc_attr($key).'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
             }
         $field .= '</select>';
 
@@ -158,9 +178,9 @@ class pisol_class_form_dtt{
         $field = '<select style="min-height:100px;" class="form-control multiselect '.$this->pro.'" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple'. '>';
             foreach($this->setting['value'] as $key => $val){
                 if(isset($this->saved_value) && $this->saved_value != false){
-                    $field .='<option value="'.$key.'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+                    $field .='<option value="'.esc_attr($key).'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
                 }else{
-                    $field .= '<option value="'.$key.'">'.$val.'</option>';
+                    $field .= '<option value="'.esc_attr($key).'">'.$val.'</option>';
                 }
             }
             $field .= '</select>';
@@ -178,7 +198,7 @@ class pisol_class_form_dtt{
 
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
+        $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
         .(isset($this->setting['min']) ? ' min="'.$this->setting['min'].'"': '')
         .(isset($this->setting['max']) ? ' max="'.$this->setting['max'].'"': '')
         .(isset($this->setting['step']) ? ' step="'.$this->setting['step'].'"': '')
@@ -198,7 +218,7 @@ class pisol_class_form_dtt{
 
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
+        $field = '<input type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -239,7 +259,7 @@ class pisol_class_form_dtt{
         ');
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
+        $field = '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -252,7 +272,7 @@ class pisol_class_form_dtt{
     function hidden_box(){
         $label =  '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =   (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field ='<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
+        $field ='<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -280,6 +300,21 @@ class pisol_class_form_dtt{
         $this->bootstrap($label, $field, $desc, $links);
     }
 
+    function switch_category_display(){
+
+        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        
+        $field = '<div class="custom-control custom-switch">
+        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
+        <label class="custom-control-label" for="'.$this->setting['field'].'"></label>
+        </div>';
+
+        $links = $this->generateLinks($this->setting);
+
+        $this->bootstrap_switch_category($label, $field, $desc, $links);
+    }
+
     /**
      * Category: is to devide setting in different part 
      */
@@ -304,7 +339,7 @@ class pisol_class_form_dtt{
         <div class="row align-items-center">
         <div class="col-6">
         <input id="'.$this->setting['field'].'_button" type="button" class="button" value="'.__('Upload image').'" />
-        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'">
+        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'">
         </div>
         <div class="col-6">
         <div class="image-preview-wrapper">
