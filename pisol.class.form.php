@@ -1,6 +1,6 @@
 <?php
 /**
-* version 3.4
+* version 3.3
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
@@ -142,7 +142,7 @@ class pisol_class_form_ppscw{
          .(isset($this->setting['multiple']) ? ' multiple="'.$this->setting['multiple'].'"': '')
         .'>';
             foreach($this->setting['value'] as $key => $val){
-               $field .= '<option value="'.esc_attr($key).'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+               $field .= '<option value="'.$key.'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
             }
         $field .= '</select>';
 
@@ -178,9 +178,9 @@ class pisol_class_form_ppscw{
         $field = '<select style="min-height:100px;" class="form-control multiselect '.$this->pro.'" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple'. '>';
             foreach($this->setting['value'] as $key => $val){
                 if(isset($this->saved_value) && $this->saved_value != false){
-                    $field .='<option value="'.esc_attr($key).'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+                    $field .='<option value="'.$key.'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
                 }else{
-                    $field .= '<option value="'.esc_attr($key).'">'.$val.'</option>';
+                    $field .= '<option value="'.$key.'">'.$val.'</option>';
                 }
             }
             $field .= '</select>';
@@ -198,7 +198,7 @@ class pisol_class_form_ppscw{
 
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
+        $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
         .(isset($this->setting['min']) ? ' min="'.$this->setting['min'].'"': '')
         .(isset($this->setting['max']) ? ' max="'.$this->setting['max'].'"': '')
         .(isset($this->setting['step']) ? ' step="'.$this->setting['step'].'"': '')
@@ -218,7 +218,7 @@ class pisol_class_form_ppscw{
 
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
+        $field = '<input type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -259,7 +259,7 @@ class pisol_class_form_ppscw{
         ');
         $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
+        $field = '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -272,7 +272,7 @@ class pisol_class_form_ppscw{
     function hidden_box(){
         $label =  '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
         $desc =   (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field ='<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
+        $field ='<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'"'
         .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
         .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
         .'>';
@@ -339,7 +339,7 @@ class pisol_class_form_ppscw{
         <div class="row align-items-center">
         <div class="col-6">
         <input id="'.$this->setting['field'].'_button" type="button" class="button" value="'.__('Upload image').'" />
-        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'">
+        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.$this->saved_value.'">
         </div>
         <div class="col-6">
         <div class="image-preview-wrapper">
