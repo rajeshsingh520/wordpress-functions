@@ -1,12 +1,12 @@
 <?php
 /**
-* version 3.4
+* version 3.6
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_ppscw')):
-class pisol_class_form_ppscw{
+if(!class_exists('pisol_class_form_acblw')):
+class pisol_class_form_acblw{
 
     private $setting;
     private $saved_value; 
@@ -31,6 +31,77 @@ class pisol_class_form_ppscw{
         }else{
             $this->pro = "";
         }
+
+        $allowed_atts = array(
+            'align'      => array(),
+            'class'      => array(),
+            'selected'   => array(),
+            'multiple'   => array(),
+            'checked'    => array(),
+            'type'       => array(),
+            'id'         => array(),
+            'dir'        => array(),
+            'lang'       => array(),
+            'style'      => array(),
+            'xml:lang'   => array(),
+            'src'        => array(),
+            'alt'        => array(),
+            'href'       => array(),
+            'rel'        => array(),
+            'rev'        => array(),
+            'target'     => array(),
+            'novalidate' => array(),
+            'type'       => array(),
+            'value'      => array(),
+            'name'       => array(),
+            'tabindex'   => array(),
+            'action'     => array(),
+            'method'     => array(),
+            'for'        => array(),
+            'width'      => array(),
+            'height'     => array(),
+            'data'       => array(),
+            'title'      => array(),
+            'min'        => array(),
+            'max'        => array(),
+            'step'        => array(),
+            'required'   => array(),
+            'readonly'   => array(),
+        );
+        $this->allowed_tags['form']     = $allowed_atts;
+        $this->allowed_tags['label']    = $allowed_atts;
+        $this->allowed_tags['input']    = $allowed_atts;
+        $this->allowed_tags['textarea'] = $allowed_atts;
+        $this->allowed_tags['iframe']   = $allowed_atts;
+        $this->allowed_tags['script']   = $allowed_atts;
+        $this->allowed_tags['style']    = $allowed_atts;
+        $this->allowed_tags['strong']   = $allowed_atts;
+        $this->allowed_tags['small']    = $allowed_atts;
+        $this->allowed_tags['table']    = $allowed_atts;
+        $this->allowed_tags['span']     = $allowed_atts;
+        $this->allowed_tags['abbr']     = $allowed_atts;
+        $this->allowed_tags['code']     = $allowed_atts;
+        $this->allowed_tags['pre']      = $allowed_atts;
+        $this->allowed_tags['div']      = $allowed_atts;
+        $this->allowed_tags['img']      = $allowed_atts;
+        $this->allowed_tags['h1']       = $allowed_atts;
+        $this->allowed_tags['h2']       = $allowed_atts;
+        $this->allowed_tags['h3']       = $allowed_atts;
+        $this->allowed_tags['h4']       = $allowed_atts;
+        $this->allowed_tags['h5']       = $allowed_atts;
+        $this->allowed_tags['h6']       = $allowed_atts;
+        $this->allowed_tags['ol']       = $allowed_atts;
+        $this->allowed_tags['ul']       = $allowed_atts;
+        $this->allowed_tags['li']       = $allowed_atts;
+        $this->allowed_tags['em']       = $allowed_atts;
+        $this->allowed_tags['hr']       = $allowed_atts;
+        $this->allowed_tags['br']       = $allowed_atts;
+        $this->allowed_tags['tr']       = $allowed_atts;
+        $this->allowed_tags['td']       = $allowed_atts;
+        $this->allowed_tags['p']        = $allowed_atts;
+        $this->allowed_tags['a']        = $allowed_atts;
+        $this->allowed_tags['b']        = $allowed_atts;
+        $this->allowed_tags['i']        = $allowed_atts;
         
         
         $this->check_field_type();
@@ -92,22 +163,22 @@ class pisol_class_form_ppscw{
     function bootstrap($label, $field, $desc = "", $links = ""){
         if($this->setting['type'] != 'hidden'){
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>"  class="row py-4 border-bottom align-items-center <?php echo $this->pro; ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?>">
+        <div id="row_<?php echo esc_attr($this->setting['field']); ?>"  class="row py-4 border-bottom align-items-center <?php echo esc_attr($this->pro); ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?>">
             <div class="col-12 col-md-5">
-            <?php echo $label; ?>
-            <?php echo $desc != "" ? $desc.'<br>': ""; ?>
-            <?php echo $links != "" ? $links: ""; ?>
+            <?php echo wp_kses($label, $this->allowed_tags); ?>
+            <?php echo wp_kses($desc != "" ? $desc.'<br>': "", $this->allowed_tags); ?>
+            <?php echo wp_kses($links != "" ? $links: "", $this->allowed_tags); ?>
             </div>
             <div class="col-12 col-md-7">
-            <?php echo $field; ?>
+            <?php echo wp_kses($field, $this->allowed_tags); ?>
             </div>
         </div>
         <?php
         }else{
             ?>
-            <div id="row_<?php echo $this->setting['field']; ?>" class="row align-items-center <?php echo $this->pro; ?>">
+            <div id="row_<?php echo esc_attr($this->setting['field']); ?>" class="row align-items-center <?php echo esc_attr($this->pro); ?>">
             <div class="col-12 col-md-12">
-            <?php echo $field; ?>
+            <?php echo wp_kses($field, $this->allowed_tags); ?>
             </div>
             </div>
             <?php
@@ -117,14 +188,14 @@ class pisol_class_form_ppscw{
 
     function bootstrap_switch_category($label, $field, $desc = "", $links = ""){
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
+        <div id="row_<?php echo esc_attr($this->setting['field']); ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? esc_attr($this->setting['class']) : "" ); ?>">
             <div class="col-9">
-            <?php echo $label; ?>
-            <?php echo $desc != "" ? $desc.'<br>': ""; ?>
-            <?php echo $links != "" ? $links: ""; ?>
+            <?php echo wp_kses($label, $this->allowed_tags) ; ?>
+            <?php echo wp_kses($desc != "" ? $desc.'<br>': "", $this->allowed_tags); ?>
+            <?php echo wp_kses($links != "" ? $links: "", $this->allowed_tags); ?>
             </div>
             <div class="col-3">
-            <?php echo $field; ?>
+            <?php echo wp_kses($field, $this->allowed_tags); ?>
             </div>
         </div>
         <?php
@@ -135,14 +206,14 @@ class pisol_class_form_ppscw{
     */
     function select_box(){
 
-        $label = '<label class="h6 mb-0" class="mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
         
-        $field = '<select class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'
-         .(isset($this->setting['multiple']) ? ' multiple="'.$this->setting['multiple'].'"': '')
+        $field = '<select class="form-control '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'"'
+         .(isset($this->setting['multiple']) ? ' multiple="'.esc_attr($this->setting['multiple']).'"': '')
         .'>';
             foreach($this->setting['value'] as $key => $val){
-               $field .= '<option value="'.esc_attr($key).'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+               $field .= '<option value="'.esc_attr($key).'" '.( ( $this->saved_value == $key) ? " selected=\"selected\" " : "" ).'>'.esc_html($val).'</option>';
             }
         $field .= '</select>';
 
@@ -164,7 +235,7 @@ class pisol_class_form_ppscw{
         $links = $setting['links'];
         foreach($links as $link){
             $class = 'pi-'.$link['type'];
-            $html .= '<a href="'.$link['url'].'" class="'.$class.' pi-info-links" target="_blank">'.$link['name'].'</a> ';
+            $html .= '<a href="'.esc_url($link['url']).'" class="'.esc_attr($class).' pi-info-links" target="_blank">'.esc_html($link['name']).'</a> ';
         }
         return $html;
     }
@@ -173,14 +244,14 @@ class pisol_class_form_ppscw{
         Field type: select box
     */
     function multiselect_box(){
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc = ((isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "");
-        $field = '<select style="min-height:100px;" class="form-control multiselect '.$this->pro.'" name="'.$this->setting['field'].'[]" id="'.$this->setting['field'].'" multiple'. '>';
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc = ((isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "");
+        $field = '<select style="min-height:100px;" class="form-control multiselect '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'[]" id="'.esc_attr($this->setting['field']).'" multiple'. '>';
             foreach($this->setting['value'] as $key => $val){
                 if(isset($this->saved_value) && $this->saved_value != false){
-                    $field .='<option value="'.esc_attr($key).'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.$val.'</option>';
+                    $field .='<option value="'.esc_attr($key).'" '.( ( in_array($key, $this->saved_value) ) ? " selected=\"selected\" " : "" ).'>'.esc_html($val).'</option>';
                 }else{
-                    $field .= '<option value="'.esc_attr($key).'">'.$val.'</option>';
+                    $field .= '<option value="'.esc_attr($key).'">'.esc_html($val).'</option>';
                 }
             }
             $field .= '</select>';
@@ -196,14 +267,14 @@ class pisol_class_form_ppscw{
     */
     function number_box(){
 
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="number" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
-        .(isset($this->setting['min']) ? ' min="'.$this->setting['min'].'"': '')
-        .(isset($this->setting['max']) ? ' max="'.$this->setting['max'].'"': '')
-        .(isset($this->setting['step']) ? ' step="'.$this->setting['step'].'"': '')
-        .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
-        .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
+        $field = '<input type="number" class="form-control '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" value="'.esc_attr($this->saved_value).'"'
+        .(isset($this->setting['min']) ? ' min="'.esc_attr($this->setting['min']).'"': '')
+        .(isset($this->setting['max']) ? ' max="'.esc_attr($this->setting['max']).'"': '')
+        .(isset($this->setting['step']) ? ' step="'.esc_attr($this->setting['step']).'"': '')
+        .(isset($this->setting['required']) ? ' required="'.esc_attr($this->setting['required']).'"': '')
+        .(isset($this->setting['readonly']) ? ' readonly="'.esc_attr($this->setting['readonly']).'"': '')
         .'>';
 
         $links = $this->generateLinks($this->setting);
@@ -216,11 +287,11 @@ class pisol_class_form_ppscw{
     */
     function text_box(){
 
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
-        .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
-        .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
+        $field = '<input type="text" class="form-control '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" value="'.esc_attr($this->saved_value).'"'
+        .(isset($this->setting['required']) ? ' required="'.esc_attr($this->setting['required']).'"': '')
+        .(isset($this->setting['readonly']) ? ' readonly="'.esc_attr($this->setting['readonly']).'"': '')
         .'>';
 
         $links = $this->generateLinks($this->setting);
@@ -232,13 +303,13 @@ class pisol_class_form_ppscw{
     Textarea field
     */
     function textarea_box(){
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<textarea style="height:auto !important; min-height:200px;" type="text" class="form-control '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'
-        .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
-        .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
+        $field = '<textarea style="height:auto !important; min-height:200px;" type="text" class="form-control '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'"'
+        .(isset($this->setting['required']) ? ' required="'.esc_attr($this->setting['required']).'"': '')
+        .(isset($this->setting['readonly']) ? ' readonly="'.esc_attr($this->setting['readonly']).'"': '')
         .'>';
-        $field .= $this->saved_value; 
+        $field .= esc_textarea($this->saved_value); 
         $field .= '</textarea>';
 
         $links = $this->generateLinks($this->setting);
@@ -257,11 +328,11 @@ class pisol_class_form_ppscw{
             $(".color-picker").wpColorPicker();
           });
         ');
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field = '<input type="text" class="color-picker pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
-        .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
-        .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc =  (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
+        $field = '<input type="text" class="color-picker pisol_select '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" value="'.esc_attr($this->saved_value).'"'
+        .(isset($this->setting['required']) ? ' required="'.esc_attr($this->setting['required']).'"': '')
+        .(isset($this->setting['readonly']) ? ' readonly="'.esc_attr($this->setting['readonly']).'"': '')
         .'>';
 
         $links = $this->generateLinks($this->setting);
@@ -270,11 +341,11 @@ class pisol_class_form_ppscw{
     }
 
     function hidden_box(){
-        $label =  '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc =   (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
-        $field ='<input type="hidden" class="pisol_select '.$this->pro.'" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'"'
-        .(isset($this->setting['required']) ? ' required="'.$this->setting['required'].'"': '')
-        .(isset($this->setting['readonly']) ? ' readonly="'.$this->setting['readonly'].'"': '')
+        $label =  '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc =   (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
+        $field ='<input type="hidden" class="pisol_select '.esc_attr($this->pro).'" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" value="'.esc_attr($this->saved_value).'"'
+        .(isset($this->setting['required']) ? ' required="'.esc_attr($this->setting['required']).'"': '')
+        .(isset($this->setting['readonly']) ? ' readonly="'.esc_attr($this->setting['readonly']).'"': '')
         .'>';
 
         $links = $this->generateLinks($this->setting);
@@ -287,12 +358,12 @@ class pisol_class_form_ppscw{
     */
     function switch_display(){
 
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
-        <label class="custom-control-label" for="'.$this->setting['field'].'"></label>
+        <input type="checkbox" value="1" class="custom-control-input" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" '.(($this->saved_value == true) ? "checked='checked'": "").' >
+        <label class="custom-control-label" for="'.esc_attr($this->setting['field']).'"></label>
         </div>';
 
         $links = $this->generateLinks($this->setting);
@@ -302,12 +373,12 @@ class pisol_class_form_ppscw{
 
     function switch_category_display(){
 
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" value="1" class="custom-control-input" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
-        <label class="custom-control-label" for="'.$this->setting['field'].'"></label>
+        <input type="checkbox" value="1" class="custom-control-input" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
+        <label class="custom-control-label" for="'.esc_attr($this->setting['field']).'"></label>
         </div>';
 
         $links = $this->generateLinks($this->setting);
@@ -321,9 +392,9 @@ class pisol_class_form_ppscw{
     function setting_category(){
         if(isset($this->setting['label']) && $this->setting['label'] != ""):
         ?>
-        <div id="row_<?php echo $this->setting['field']; ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? $this->setting['class'] : "" ); ?>">
+        <div id="row_<?php echo esc_attr($this->setting['field']); ?>" class="row py-4 border-bottom align-items-center <?php echo ( isset($this->setting['class']) ? esc_attr($this->setting['class']) : "" ); ?>">
             <div class="col-12">
-            <h2 class="mt-0 mb-0 <?php echo ( isset($this->setting['class_title']) ? $this->setting['class_title'] : "" ); ?>"><?php echo $this->setting['label']; ?></h2>
+            <h2 class="mt-0 mb-0 <?php echo ( isset($this->setting['class_title']) ? esc_attr($this->setting['class_title']) : "" ); ?>"><?php echo $this->setting['label']; ?></h2>
             </div>
         </div>
         <?php
@@ -333,18 +404,18 @@ class pisol_class_form_ppscw{
     function image(){
         wp_enqueue_media();
         add_action( 'admin_footer', array($this,'media_selector_scripts') );
-        $label = '<label class="h6 mb-0" for="'.$this->setting['field'].'">'.$this->setting['label'].'</label>';
-        $desc = (isset($this->setting['desc'])) ? '<br><small>'.$this->setting['desc'].'</small>' : "";
+        $label = '<label class="h6 mb-0" for="'.esc_attr($this->setting['field']).'">'.esc_html($this->setting['label']).'</label>';
+        $desc = (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
         $field = '
         <div class="row align-items-center">
         <div class="col-6">
-        <input id="'.$this->setting['field'].'_button" type="button" class="button" value="'.__('Upload image').'" />
-        <input type="hidden" name="'.$this->setting['field'].'" id="'.$this->setting['field'].'" value="'.esc_attr($this->saved_value).'">
+        <input id="'.esc_attr($this->setting['field']).'_button" type="button" class="button" value="'.esc_attr(__('Upload image','add-coupon-by-link-woocommerce')).'" />
+        <input type="hidden" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" value="'.esc_attr($this->saved_value).'">
         </div>
         <div class="col-6">
         <div class="image-preview-wrapper">
-        <img id="'.$this->setting['field'].'_preview"'.($this->saved_value > 0 ? 'src="'.wp_get_attachment_url( get_option( $this->setting['field'] ) ).'"': '').' width="100" height="100" style="max-height: 100px; width: 100px;">
-        <a href="javascript:void(0)" class="clear-image-'.$this->setting['field'].'">Clear</a>
+        <img id="'.esc_attr($this->setting['field']).'_preview" '.($this->saved_value > 0 ? 'src="'.wp_get_attachment_url( get_option( $this->setting['field'] ) ).'"': '').' width="100" height="100" style="max-height: 100px; width: 100px;">
+        <a href="javascript:void(0)" class="clear-image-'.esc_attr($this->setting['field']).'">Clear</a>
         </div>
         </div>
         </div>
@@ -361,8 +432,8 @@ class pisol_class_form_ppscw{
 			// Uploading files
 			var file_frame;
 			var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
-			var set_to_post_id = <?php echo $my_saved_attachment_post_id == 0 || $my_saved_attachment_post_id =="" ? "''" : $my_saved_attachment_post_id ; ?>; // Set this
-			jQuery('#<?php echo $this->setting['field']; ?>_button').on('click', function( event ){
+			var set_to_post_id = <?php echo esc_attr($my_saved_attachment_post_id == 0 || $my_saved_attachment_post_id =="" ? "''" : $my_saved_attachment_post_id) ; ?>; // Set this
+			jQuery('#<?php echo esc_attr($this->setting['field']); ?>_button').on('click', function( event ){
 				event.preventDefault();
 				// If the media frame already exists, reopen it.
 				if ( file_frame ) {
@@ -388,8 +459,8 @@ class pisol_class_form_ppscw{
 					// We set multiple to false so only get one image from the uploader
 					attachment = file_frame.state().get('selection').first().toJSON();
 					// Do something with attachment.id and/or attachment.url here
-					$( '#<?php echo $this->setting['field']; ?>_preview' ).attr( 'src', attachment.url ).css( 'width', 'auto' );
-					$( '#<?php echo $this->setting['field']; ?>' ).val( attachment.id );
+					$( '#<?php echo esc_attr($this->setting['field']); ?>_preview' ).attr( 'src', attachment.url ).css( 'width', 'auto' );
+					$( '#<?php echo esc_attr($this->setting['field']); ?>' ).val( attachment.id );
 					// Restore the main post ID
 					wp.media.model.settings.post.id = wp_media_post_id;
 				});
@@ -400,9 +471,9 @@ class pisol_class_form_ppscw{
 			jQuery( 'a.add_media' ).on( 'click', function() {
 				wp.media.model.settings.post.id = wp_media_post_id;
 			});
-            jQuery( 'a.clear-image-<?php echo $this->setting['field']; ?>' ).on( 'click', function() {
-                $( '#<?php echo $this->setting['field']; ?>_preview' ).attr("src","");
-                $( '#<?php echo $this->setting['field']; ?>' ).val("");
+            jQuery( 'a.clear-image-<?php echo esc_attr($this->setting['field']); ?>' ).on( 'click', function() {
+                $( '#<?php echo esc_attr($this->setting['field']); ?>_preview' ).attr("src","");
+                $( '#<?php echo esc_attr($this->setting['field']); ?>' ).val("");
             });
 		});
 	</script>
