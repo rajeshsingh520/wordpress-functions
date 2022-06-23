@@ -5,8 +5,8 @@
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_acblw')):
-class pisol_class_form_acblw{
+if(!class_exists('pisol_class_form_sn')):
+class pisol_class_form_sn{
 
     private $setting;
     private $saved_value; 
@@ -71,6 +71,8 @@ class pisol_class_form_acblw{
         $this->allowed_tags['form']     = $allowed_atts;
         $this->allowed_tags['label']    = $allowed_atts;
         $this->allowed_tags['input']    = $allowed_atts;
+        $this->allowed_tags['select']    = $allowed_atts;
+        $this->allowed_tags['option']    = $allowed_atts;
         $this->allowed_tags['textarea'] = $allowed_atts;
         $this->allowed_tags['iframe']   = $allowed_atts;
         $this->allowed_tags['script']   = $allowed_atts;
@@ -107,9 +109,6 @@ class pisol_class_form_acblw{
         $this->check_field_type();
     }
 
-    
-
-    
     function check_field_type(){
         if(isset($this->setting['type'])):
             switch ($this->setting['type']){
@@ -160,16 +159,17 @@ class pisol_class_form_acblw{
         endif;
     }
 
-    function bootstrap($label, $field, $desc = "", $links = ""){
+    function bootstrap($label, $field, $desc = "", $links = "", $title_col = 5){
+        $setting_col = 12 - $title_col;
         if($this->setting['type'] != 'hidden'){
         ?>
         <div id="row_<?php echo esc_attr($this->setting['field']); ?>"  class="row py-4 border-bottom align-items-center <?php echo esc_attr($this->pro); ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?>">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-<?php echo esc_attr($title_col); ?>">
             <?php echo wp_kses($label, $this->allowed_tags); ?>
             <?php echo wp_kses($desc != "" ? $desc.'<br>': "", $this->allowed_tags); ?>
             <?php echo wp_kses($links != "" ? $links: "", $this->allowed_tags); ?>
             </div>
-            <div class="col-12 col-md-7">
+            <div class="col-12 col-md-<?php echo esc_attr($setting_col); ?>">
             <?php echo wp_kses($field, $this->allowed_tags); ?>
             </div>
         </div>
@@ -219,7 +219,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 7);
 
     }
 
@@ -279,7 +279,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 7);
     }
 
     /*
@@ -296,7 +296,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 7);
     }
     
     /*
@@ -314,7 +314,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 12);
     }
 
      /*
@@ -337,7 +337,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 6);
     }
 
     function hidden_box(){
@@ -368,7 +368,7 @@ class pisol_class_form_acblw{
 
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap($label, $field, $desc, $links, 9);
     }
 
     function switch_category_display(){
