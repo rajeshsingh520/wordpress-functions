@@ -5,8 +5,8 @@
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_sn')):
-class pisol_class_form_sn{
+if(!class_exists('pisol_class_form_sn_v3_7')):
+class pisol_class_form_sn_v3_7{
 
     private $setting;
     private $saved_value; 
