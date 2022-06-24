@@ -1,6 +1,6 @@
 <?php
 /**
-* version 3.6
+* version 3.7
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
