@@ -1,35 +1,39 @@
 /**
- * v1.0.0
+ * v1.0.1
  */
 (function ($) {
     'use strict';
 
+    /**
+     * Add class exclude-quick-save to the form you want to exclude from quick save
+     */
     function quickSaveButton() {
         this.init = function () {
+            this.form = jQuery('form[action="options.php"]').not('.exclude-quick-save');
             this.addButton();
             this.onClick();
         }
 
         this.addButton = function () {
-
-            if (jQuery('form[action="options.php"]').length == 1) {
-                var button = jQuery('<button id="pisol-quick-save" class="button">Save settings</button>').css({
+            if (this.form.length == 1) {
+                var button = jQuery('<button id="pisol-quick-save" class="btn btn-secondary btn-md">Save Changes</button>').css({
                     'position': 'fixed',
                     'top': '50%',
-                    'right': '20px',
+                    'right': '-60px',
                     'z-index': '100000000000',
-                    'background': '#ee6443',
-                    'color': '#ffffff',
-                    'border-color': '#FFFFFF'
+                    'transform': 'rotate(-90deg)',
+                    'border-color': '#FFFFFF',
+                    'width': '150px'
                 });
-                jQuery('body').append(button);
+                this.form.append(button);
             }
         }
 
         this.onClick = function () {
+            var parent = this;
             jQuery(document).on('click', '#pisol-quick-save', function (e) {
                 e.preventDefault();
-                jQuery('form[action="options.php"]').trigger('submit');
+                parent.form.trigger('submit');
                 jQuery(this).text('Saving....');
             });
         }
