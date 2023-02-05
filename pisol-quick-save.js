@@ -1,5 +1,5 @@
 /**
- * v1.0.1
+ * v1.0.2
  */
 (function ($) {
     'use strict';
@@ -16,7 +16,7 @@
 
         this.addButton = function () {
             if (this.form.length == 1) {
-                var button = jQuery('<button id="pisol-quick-save" class="btn btn-secondary btn-md">Save Changes</button>').css({
+                var button = jQuery('<button type="submit" id="pisol-quick-save" class="btn btn-secondary btn-md">Save Changes</button>').css({
                     'position': 'fixed',
                     'top': '50%',
                     'right': '-60px',
@@ -32,7 +32,6 @@
         this.onClick = function () {
             var parent = this;
             jQuery(document).on('click', '#pisol-quick-save', function (e) {
-                e.preventDefault();
                 parent.form.trigger('submit');
                 jQuery(this).text('Saving....');
             });
