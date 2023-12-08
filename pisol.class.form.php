@@ -377,7 +377,7 @@ class pisol_class_form_sn_v3_7{
         $desc = (isset($this->setting['desc'])) ? '<br><small>'.wp_kses($this->setting['desc'], $this->allowed_tags).'</small>' : "";
         
         $field = '<div class="custom-control custom-switch">
-        <input type="checkbox" value="1" class="custom-control-input" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'"'.(($this->saved_value == true) ? "checked='checked'": "").' >
+        <input type="checkbox" value="1" class="custom-control-input" name="'.esc_attr($this->setting['field']).'" id="'.esc_attr($this->setting['field']).'" '.(!empty($this->saved_value) ? "checked='checked'": "").' >
         <label class="custom-control-label" for="'.esc_attr($this->setting['field']).'"></label>
         </div>';
 
