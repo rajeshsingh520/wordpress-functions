@@ -440,7 +440,7 @@ class pisol_class_form_dtt{
 			// Uploading files
 			var file_frame;
 			var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
-			var set_to_post_id = <?php echo esc_attr($my_saved_attachment_post_id == 0 || $my_saved_attachment_post_id =="" ? "''" : $my_saved_attachment_post_id) ; ?>; // Set this
+			var set_to_post_id = <?php echo esc_attr($my_saved_attachment_post_id == 0 || $my_saved_attachment_post_id =="" ? "0" : $my_saved_attachment_post_id) ; ?>; // Set this
 			jQuery('#<?php echo esc_attr($this->setting['field']); ?>_button').on('click', function( event ){
 				event.preventDefault();
 				// If the media frame already exists, reopen it.
