@@ -193,6 +193,31 @@ class pisol_class_form_dtt{
         }
     }
 
+    function bootstrap_image($label, $field, $desc = "", $links = "", $title_col = 5){
+        $setting_col = 12 - $title_col;
+        if($this->setting['type'] != 'hidden'){
+        ?>
+        <div id="row_<?php echo esc_attr($this->setting['field']); ?>"  class="row py-4 border-bottom align-items-center <?php echo esc_attr($this->pro); ?> <?php echo !empty($this->setting['class']) ? esc_attr($this->setting['class']) : ''; ?>">
+            <div class="col-12 col-md-<?php echo esc_attr($title_col); ?>">
+            <?php echo wp_kses($label, $this->allowed_tags); ?>
+            <?php echo wp_kses($desc != "" ? $desc.'<br>': "", $this->allowed_tags); ?>
+            <?php echo wp_kses($links != "" ? $links: "", $this->allowed_tags); ?>
+            </div>
+            <div class="col-12 col-md-<?php echo esc_attr($setting_col); ?>">
+            <?php echo wp_kses($field, $this->allowed_tags, ['https', 'http', 'javascript']); ?>
+            </div>
+        </div>
+        <?php
+        }else{
+            ?>
+            <div id="row_<?php echo esc_attr($this->setting['field']); ?>" class="row align-items-center <?php echo esc_attr($this->pro); ?>">
+            <div class="col-12 col-md-12">
+            <?php echo wp_kses($field, $this->allowed_tags); ?>
+            </div>
+            </div>
+            <?php
+        }
+    }
 
     function bootstrap_switch_category($label, $field, $desc = "", $links = ""){
         ?>
@@ -430,7 +455,7 @@ class pisol_class_form_dtt{
         ';
         $links = $this->generateLinks($this->setting);
 
-        $this->bootstrap($label, $field, $desc, $links);
+        $this->bootstrap_image($label, $field, $desc, $links);
     }
 
     function media_selector_scripts(){
