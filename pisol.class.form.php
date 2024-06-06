@@ -1,12 +1,12 @@
 <?php
 /**
-* version 3.10
+* version 3.11
 * work with bootstrap
 */
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-if(!class_exists('pisol_class_form_dtt')):
-class pisol_class_form_dtt{
+if(!class_exists('pisol_class_form_eqw')):
+class pisol_class_form_eqw{
 
     private $setting;
     private $saved_value; 
@@ -162,6 +162,10 @@ class pisol_class_form_dtt{
 
                 case 'image':
                     $this->image();
+                break;
+
+                default:
+                    $this->custom_field();
                 break;
             }
         endif;
@@ -512,6 +516,11 @@ class pisol_class_form_dtt{
 	</script>
     <?php
     }
+
+    function custom_field(){
+        do_action('pisol_custom_field_'.$this->setting['type'], $this->setting, $this->saved_value);
+    }
+
 
 
     /**
