@@ -180,6 +180,7 @@ class pisol_class_form_eqw{
             <?php echo wp_kses($label, $this->allowed_tags); ?>
             <?php echo wp_kses($desc != "" ? $desc.'<br>': "", $this->allowed_tags); ?>
             <?php echo wp_kses($links != "" ? $links: "", $this->allowed_tags); ?>
+	    <?php do_action('pisol_after_label_of_'.$field, $field,$this->setting); ?>
             </div>
             <div class="col-12 col-md-<?php echo esc_attr($setting_col); ?>">
             <?php echo wp_kses($field, $this->allowed_tags); ?>
